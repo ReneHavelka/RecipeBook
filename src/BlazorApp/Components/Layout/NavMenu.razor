@@ -1,0 +1,37 @@
+﻿<div class="top-row ps-2 navbar" style="height:4rem; background-color:#eef2ff">
+    <div class="container-fluid">
+        <p class="navbar-brand" style="color:#0284c7; font-size:1.25rem" href=""><b>Recepty</b></p>
+    </div>
+</div>
+
+<div class="nav-scrollable bg-light text-dark" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item p-3">
+            <h4>
+                Druhy jedál
+            </h4>
+        </div>
+
+        <div class=" nav-item px-3">
+            <NavLink id="allRecipes" class="nav-link text-dark" href="/Recipes/recipeListing?Id=0">
+                Všetky recepty
+            </NavLink>
+        </div>
+
+        @foreach (var dishType in dishTypeList)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-dark" href=@($"/Recipes/recipeListing?Id={dishType.Id}&DishTypeName={dishType.Name}")>
+                    @dishType.Name
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+<script>
+    window.onload = function() {
+      const button = document.getElementById("allRecipes");
+      button.click();
+    }
+</script>

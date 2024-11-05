@@ -1,0 +1,32 @@
+﻿@page "/Recipes/recipeListing"
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Recipes</PageTitle>
+
+<div>
+    <h3>@DishTypeName</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Názov</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recipe in RecipeList)
+            {
+                <tr>
+                    <td>
+                        <button class="btn btn-outline-light text-black" @onclick="() => RecipeDirections(recipe)">@recipe.Name</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
