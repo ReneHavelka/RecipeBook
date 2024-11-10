@@ -46,7 +46,7 @@ namespace BlazorApp.Components.Pages.Recipes
 			}
 		}
 
-		private async Task RecipeDirections(Recipe recipe)
+		private async Task RecipeDirectionsAync(Recipe recipe)
 		{
 			var handleSpecificRecipeDirections = new HandleSpecificRecipeDirections(_dbContext);
 			await handleSpecificRecipeDirections.RecipeDirections(recipe);
