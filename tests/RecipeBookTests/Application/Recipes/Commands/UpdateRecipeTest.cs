@@ -21,17 +21,13 @@ namespace RecipeBookTests.Application.Recipes.Commands
 						{
 							DishTypeId = 1,
 							Name = string.Concat("Recipe Name", new Random().Next(100,1000)),
-							FileName = "Recipe FileName1",
 							RecipeInstr = Encoding.Default.GetBytes("Recipe Directions1"),
-							VideoFileLink = "Video File Link1"
 						},
 					new Recipe
 						{
 							DishTypeId = 2,
 							Name = string.Concat("Recipe Name", new Random().Next(100,1000)),
-							FileName = "Recipe FileName2",
 							RecipeInstr = Encoding.Default.GetBytes("Recipe Directions2"),
-							VideoFileLink = "Video File Link2"
 						}
 				];
 
@@ -42,7 +38,6 @@ namespace RecipeBookTests.Application.Recipes.Commands
 			Recipe recipeToUpdate = dbContext.Recipes.Where(x => x.Name == recipeArr[0].Name).FirstOrDefault();
 			recipeToUpdate.DishTypeId = 3;
 			recipeToUpdate.Name = "Recipe Name Corrected" + new Random().Next(100, 1000);
-			recipeToUpdate.FileName = "Recipe FileName Corrected";
 			recipeToUpdate.RecipeInstr = Encoding.Default.GetBytes("Recipe Directions Corrected");
 			await new UpdateRecipe(dbContext).DoUpdateRecipeAsync(recipeToUpdate, CancellationToken.None);
 
@@ -62,9 +57,7 @@ namespace RecipeBookTests.Application.Recipes.Commands
 			//Assert
 			Assert.AreEqual(recipeToUpdate.DishTypeId, updatedRecipe.DishTypeId);
 			Assert.AreEqual(recipeToUpdate.Name, updatedRecipe.Name);
-			Assert.AreEqual(recipeToUpdate.FileName, updatedRecipe.FileName);
 			Assert.AreEqual(recipeToUpdate.RecipeInstr, updatedRecipe.RecipeInstr);
-			Assert.AreEqual(recipeToUpdate.FileName, updatedRecipe.FileName);
 		}
 	}
 }

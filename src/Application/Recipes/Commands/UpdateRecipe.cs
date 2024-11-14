@@ -14,8 +14,6 @@ namespace Application.Recipes.Commands
 
 		public async Task DoUpdateRecipeAsync(Recipe recipe, CancellationToken cancellationToken)
 		{
-			//Doplniť kontrolu na DishType.
-			//Doplniť kontrolu na FileExtension
 			_dbContext.Recipes.Update(recipe);
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}

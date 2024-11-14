@@ -7,8 +7,9 @@
 
     <main>
         <div class="topnav align-items-center px-4 bg-light" style="height:4rem">
-            @* Stránka bude vytvorená neskôr *@
-            <a class="active" href="#NovaStranka - CreateRecipe">Nový recept</a>
+            <NavLink class="nav-link text-dark" href=@("/Recipes/createRecipe")>
+                Nový recept
+            </NavLink>
         </div>
 
         <article class="content px-4">

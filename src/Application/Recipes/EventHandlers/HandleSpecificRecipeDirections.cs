@@ -22,7 +22,7 @@ namespace Application.Recipes.EventHandlers
 			string tempPath = Path.GetTempPath();
 			string clompleteTempFileName;
 
-			switch (Path.GetExtension(specificRecipe.FileName))
+			switch (Path.GetExtension(specificRecipe.Name))
 			{
 				case ".pdf":
 					clompleteTempFileName = Path.Combine(tempPath, randomFileNameWithoutExt + ".pdf");

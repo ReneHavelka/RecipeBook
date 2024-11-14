@@ -1,0 +1,54 @@
+﻿@page "/Recipes/createRecipe"
+@using System.Diagnostics
+@using Domain.Entities
+@rendermode InteractiveServer
+
+
+<PageTitle>CreateRecipePage</PageTitle>
+
+<EditForm Model="RecipeModel" OnValidSubmit="OnSubmitAsync">
+    <h3>Nový recept</h3>
+    <div>
+        <button type="button" class="bg-white" @onclick="() => ResetPropertiesAndFields()">Reset</button>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <div>
+        <label style="margin-right:1rem">Druh jedla:</label>
+        <InputSelect @bind-Value="RecipeModel!.DishTypeId" @onclick="() => DishTypeSelected()">
+            <option value=0 style="text-align:center" disabled>-- Vyber druh jedla --</option>
+            @foreach (var dishType in dishTypeList)
+            {
+                <option value=@dishType.Id>@dishType.Name</option>
+            }
+        </InputSelect>
+        <p class="text-danger">@DishTypeIdWarning</p>
+    </div>
+    <br />
+
+    <div>
+        <label style="margin-right:1rem">Súbor s receptom:</label>
+        <InputFile id="inputFile" accept=".pdf" OnChange="LoadFile" style="display:none" />
+        <label for="inputFile" style="cursor:pointer; border:2px solid black; padding-left:1rem; padding-right:1rem">Vyber súbor (pdf)</label>
+        <span style="margin-left:1rem">@FileName</span>
+        <p class="text-danger">@FileWarning</p>
+    </div>
+    <br />
+    
+    <div>
+        <label style="margin-right:1rem">Názov receptu:</label>
+        <InputText @bind-Value="RecipeModel!.Name" @oninput="() => DishNameEntered()" />
+        <p class="text-danger">@NameWarning</p>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <div>
+        <button type="submit">Submit</button>
+        <br />
+        <label style="color:green">@DoneNotification</label>
+    </div>
+</EditForm>

@@ -1,11 +1,6 @@
-﻿using Application.Common.Interfaces;
-using Application.Recipes.Queries;
-using Domain.Entities;
+﻿using Application.Recipes.Queries;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using RecipeBookTests.Application.Common;
-using RecipeBookTests.Application.Recipes.Commands;
-using System.Threading;
 
 namespace RecipeBookTests.Application.Recipes.Queries
 {
@@ -23,7 +18,7 @@ namespace RecipeBookTests.Application.Recipes.Queries
 
 			ApplicationDbContext dbContext = new SetUpDbConext().CreateDbConext();
 			//Arrange
-			var allRecipesCount =  dbContext.Recipes.Count();
+			var allRecipesCount = dbContext.Recipes.Count();
 
 			//Act
 			var getRecipesIdsNames = new GetRecipesIdsNames(dbContext);
@@ -43,7 +38,7 @@ namespace RecipeBookTests.Application.Recipes.Queries
 			Assert.AreSame(recipeList[0], recipeListOrderedDesc[recipeListOrderedDesc.Count - 1]);
 			Assert.AreSame(recipeList[recipeListOrderedDesc.Count - 1], recipeListOrderedDesc[0]);
 
-			
+
 		}
 	}
 }
