@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Recipes.Queries;
 using Domain.Entities;
+using System.Diagnostics;
 
 namespace Application.Recipes.EventHandlers
 {
@@ -16,24 +17,37 @@ namespace Application.Recipes.EventHandlers
 		{
 			var getSpecificRecipe = new GetSpecificRecipe(_dbContext);
 			var specificRecipe = await getSpecificRecipe.GetRecipeDirections(recipe.Id);
+			var recipeDirections = specificRecipe.RecipeInstr;
 
 			string randomFileName = Path.GetRandomFileName();
 			string randomFileNameWithoutExt = Path.GetFileNameWithoutExtension(randomFileName);
 			string tempPath = Path.GetTempPath();
-			string clompleteTempFileName;
+			string completeTempFileName = string.Empty;
 
-			switch (Path.GetExtension(specificRecipe.Name))
+			switch (recipeDirections)
 			{
-				case ".pdf":
-					clompleteTempFileName = Path.Combine(tempPath, randomFileNameWithoutExt + ".pdf");
-					await File.WriteAllBytesAsync(clompleteTempFileName, specificRecipe.RecipeInstr);
-					System.Diagnostics.Process.Start($"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", clompleteTempFileName);
+				case byte[] a when a[0] == 0x25 && a[1] == 0x50 && a[2] == 0x44 && a[3] == 0x46:
+					completeTempFileName = Path.Combine(tempPath, randomFileNameWithoutExt + ".pdf");
 					break;
-				case ".docx":
-					clompleteTempFileName = Path.Combine(tempPath, randomFileNameWithoutExt + ".doc");
-					await File.WriteAllBytesAsync(clompleteTempFileName, specificRecipe.RecipeInstr);
-					System.Diagnostics.Process.Start($"C:\\Program Files\\Microsoft Office\\Office15\\WINWORD.exe", clompleteTempFileName);
+				case byte[] a when a[0] == 0xD0 && a[1] == 0xCF && a[2] == 0x11 && a[3] == 0xE0 && a[4] == 0xA1 && a[5] == 0xB1 && a[6] == 0x1A && a[7] == 0xE1:
+					completeTempFileName = Path.Combine(tempPath, randomFileNameWithoutExt + ".doc");
 					break;
+				case byte[] a when a[0] == 0x50 && a[1] == 0x4B && a[2] == 0x03 && a[3] == 0x04:
+					completeTempFileName = Path.Combine(tempPath, randomFileNameWithoutExt + ".docx");
+					break;
+				default:
+					completeTempFileName = Path.Combine(tempPath, randomFileNameWithoutExt + ".txt");
+					break;
+			}
+
+			if (completeTempFileName != string.Empty)
+			{
+				await File.WriteAllBytesAsync(completeTempFileName, recipeDirections);
+				Process.Start(new ProcessStartInfo
+				{
+					FileName = completeTempFileName,
+					UseShellExecute = true
+				});
 			}
 		}
 	}

@@ -13,12 +13,17 @@ namespace Application.Recipes.Queries
 			_dbContext = dbContext;
 		}
 
-		//Načítaj názvy a id pre všetky recepty.
-		public async Task<IList<Recipe>> GetRecipeListAsync() => await _dbContext.Recipes.Select(x => new Recipe() { Id = x.Id, DishTypeId = x.DishTypeId, Name = x.Name })
+		public async Task<IList<Recipe>> GetRecipeListAsync(int id = 0)
+		{
+			if (id == 0)
+			{
+				return await _dbContext.Recipes.Select(x => new Recipe() { Id = x.Id, DishTypeId = x.DishTypeId, Name = x.Name })
 											.OrderBy(x => x.DishTypeId).ThenBy(x => x.Name).ToListAsync();
+			}
 
-		//Načítaj názvy a id receptov pre konrétny druh jedla.
-		public async Task<IList<Recipe>> GetRecipeListOfSpecificDishType(int id) => await _dbContext.Recipes.Where(x => x.DishTypeId == id)
+			return await _dbContext.Recipes.Where(x => x.DishTypeId == id)
 											.Select(x => new Recipe() { Id = x.Id, Name = x.Name }).OrderBy(x => x.Name).ToListAsync();
+
+		}
 	}
 }

@@ -1,6 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Recipes.Commands
 {
@@ -13,12 +11,11 @@ namespace Application.Recipes.Commands
 			_dbContext = dbContext;
 		}
 
-		public async Task DoDeleteRecipe(int id, CancellationToken cancellationToken = default)
+		public async Task DoDeleteRecipe(IEnumerable<int> ids, CancellationToken cancellationToken = default)
 		{
+			var entities = _dbContext.Recipes.Where(x => ids.Contains(x.Id));
 
-			Recipe entity = await _dbContext.Recipes.FirstAsync(x => x.Id == id);
-
-			_dbContext.Recipes.Remove(entity);
+			_dbContext.Recipes.RemoveRange(entities);
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}
 	}

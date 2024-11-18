@@ -11,7 +11,7 @@ namespace Application.Recipes.Validation
 			if (dishTypeId == 0) validationResultBuilder.Append("dishtype");
 			if (stream == null) validationResultBuilder.Append("file");
 			if (name is null || name.Trim() == string.Empty) validationResultBuilder.Append("name");
-			if (validationResultBuilder.Length > 0) {return validationResultBuilder.ToString();}
+			if (validationResultBuilder.Length > 0) { return validationResultBuilder.ToString(); }
 
 			return "done";
 		}

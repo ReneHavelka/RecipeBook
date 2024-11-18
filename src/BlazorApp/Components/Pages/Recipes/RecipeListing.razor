@@ -1,24 +1,32 @@
 ﻿@page "/Recipes/recipeListing"
 @page "/"
 @rendermode InteractiveServer
+@* @inject NavigationManager Navigation *@
 
 <PageTitle>Recipes</PageTitle>
 
 <div>
-    <h3>@DishTypeName</h3>
-
+        <h3>@DishTypeName</h3>
+    
     <table class="table">
         <thead>
             <tr>
-                <th>Názov</th>
+                <th style="width:5rem">
+                    <img type="button" src="\assets\TrashCan.png" class="w-25" @onclick="() => ToDelete()" />
+                </th>
+                <th style="padding-left:1rem">Názov</th>
             </tr>
         </thead>
+
         <tbody>
             @foreach (var recipe in RecipeList)
             {
                 <tr>
                     <td>
-                        <button class="btn btn-outline-light text-black" @onclick="() => RecipeDirectionsAync(recipe)">@recipe.Name</button>
+                        <input type="checkbox" @bind-value="@RecipesToDelete[recipe.Id]" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-light text-black" @onclick="() => RecipeDirectionsAync(recipe)">@recipe.Name</button>
                     </td>
                 </tr>
             }

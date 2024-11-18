@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Components\Pages\DisheTypes\" />
+    <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 
 </Project>
