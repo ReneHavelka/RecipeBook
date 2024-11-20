@@ -35,7 +35,7 @@ namespace BlazorApp.Components.Pages.Recipes
 		{
 			var getRecepies = new GetRecipesIdsNames(_dbContext);
 
-			if (Id == null) Id = 0;
+			if (Id == null) return;
 
 			RecipeList = await getRecepies.GetRecipeListAsync((int)Id);
 			if (Id == 0) { DishTypeName = "Všetky recepty"; }

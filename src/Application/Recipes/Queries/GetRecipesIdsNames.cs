@@ -13,17 +13,16 @@ namespace Application.Recipes.Queries
 			_dbContext = dbContext;
 		}
 
-		public async Task<IList<Recipe>> GetRecipeListAsync(int id = 0)
+		public async Task<IList<Recipe>> GetRecipeListAsync(int dishTypeId = 0)
 		{
-			if (id == 0)
+			if (dishTypeId == 0)
 			{
 				return await _dbContext.Recipes.Select(x => new Recipe() { Id = x.Id, DishTypeId = x.DishTypeId, Name = x.Name })
 											.OrderBy(x => x.DishTypeId).ThenBy(x => x.Name).ToListAsync();
 			}
 
-			return await _dbContext.Recipes.Where(x => x.DishTypeId == id)
-											.Select(x => new Recipe() { Id = x.Id, Name = x.Name }).OrderBy(x => x.Name).ToListAsync();
-
+			return await _dbContext.Recipes.Where(x => x.DishTypeId == dishTypeId)
+											.Select(x => new Recipe() { Id = x.Id, DishTypeId = x.DishTypeId, Name = x.Name }).OrderBy(x => x.Name).ToListAsync();
 		}
 	}
 }

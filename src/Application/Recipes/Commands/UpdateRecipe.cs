@@ -12,7 +12,7 @@ namespace Application.Recipes.Commands
 			_dbContext = dbContext;
 		}
 
-		public async Task DoUpdateRecipeAsync(Recipe recipe, CancellationToken cancellationToken)
+		public async Task DoUpdateRecipeAsync(Recipe recipe, CancellationToken cancellationToken = default)
 		{
 			_dbContext.Recipes.Update(recipe);
 			await _dbContext.SaveChangesAsync(cancellationToken);

@@ -26,5 +26,37 @@
                 </NavLink>
             </div>
         }
+        <br />
+        <br />
+        <br />
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link text-dark" href=@($"/DishTypes/createOrUpdateDishType")>
+                Nový druh jedla
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link text-dark" href=@($"/DishTypes/updateDishType")>
+                Zmena názvu
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link text-dark" href=@($"/DishTypes/deleteDishType")>
+                Odstránenie názvu    
+            </NavLink>
+        </div>
     </nav>
 </div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    var IdValue = urlParams.get("Id");
+    if (IdValue == null){
+        window.onload = function() {
+            const button = document.getElementById("allRecipes");
+            button.click();
+        }
+    }
+</script>

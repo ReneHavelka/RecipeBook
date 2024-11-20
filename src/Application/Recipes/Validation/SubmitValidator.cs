@@ -13,7 +13,7 @@ namespace Application.Recipes.Validation
 			if (name is null || name.Trim() == string.Empty) validationResultBuilder.Append("name");
 			if (validationResultBuilder.Length > 0) { return validationResultBuilder.ToString(); }
 
-			return "done";
+			return "recipeCreated";
 		}
 	}
 }

@@ -1,20 +1,23 @@
 ﻿@page "/Recipes/recipeListing"
 @page "/"
 @rendermode InteractiveServer
-@* @inject NavigationManager Navigation *@
+
 
 <PageTitle>Recipes</PageTitle>
 
 <div>
-        <h3>@DishTypeName</h3>
-    
+    <h3>@DishTypeName</h3>
+
     <table class="table">
         <thead>
             <tr>
                 <th style="width:5rem">
                     <img type="button" src="\assets\TrashCan.png" class="w-25" @onclick="() => ToDelete()" />
                 </th>
-                <th style="padding-left:1rem">Názov</th>
+                <th style="padding-left:1rem">
+                    Názov
+                </th>
+                <th class="col-1"></th>
             </tr>
         </thead>
 
@@ -27,6 +30,11 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-outline-light text-black" @onclick="() => RecipeDirectionsAync(recipe)">@recipe.Name</button>
+                    </td>
+                    <td>
+                        <NavLink class="nav-link text-dark col-sm-1" href=@($"/Recipes/createOrUpdateRecipe?DishTypeId={recipe.DishTypeId}&RecipeName={@recipe.Name}&RecipeId={@recipe.Id}")>
+                            Aktualizuj
+                        </NavLink>
                     </td>
                 </tr>
             }

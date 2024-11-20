@@ -19,7 +19,7 @@ namespace Application.Recipes.EventHandlers
 			var submitValidation = new SubmitValidator();
 			var validationResponse = submitValidation.ValidateSubmit(dishTypeID, stream, name);
 
-			if (validationResponse.ToString() == "done")
+			if (validationResponse.ToString() == "recipeCreated")
 			{
 				byte[] recipeInstructions;
 				using (var memoryStream = new MemoryStream())

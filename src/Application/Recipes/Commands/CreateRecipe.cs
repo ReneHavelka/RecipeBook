@@ -14,7 +14,6 @@ namespace Application.Recipes.Commands
 
 		public async Task DoCreateRecipeAsync(Recipe recipe, CancellationToken cancellationToken = default)
 		{
-			//Pozn.: Name a FileName treba zjednotiť. Miesto FileName použiť FileExtension.
 			await _dbContext.Recipes.AddAsync(recipe);
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}

@@ -1,13 +1,13 @@
-﻿@page "/Recipes/createRecipe"
+﻿@page "/Recipes/createOrUpdateRecipe"
 @using System.Diagnostics
 @using Domain.Entities
 @rendermode InteractiveServer
 
 
-<PageTitle>CreateRecipePage</PageTitle>
+<PageTitle>CreateOrUpdateRecipePage</PageTitle>
 
 <EditForm Model="RecipeModel" OnValidSubmit="OnSubmitAsync">
-    <h3>Nový recept</h3>
+    <h3>@modeName</h3>
     <div>
         <button type="button" class="bg-white" @onclick="() => ResetPropertiesAndFields()">Reset</button>
     </div>
@@ -39,7 +39,7 @@
     
     <div>
         <label style="margin-right:1rem">Názov receptu:</label>
-        <InputText @bind-Value="RecipeModel!.Name" @oninput="() => DishNameEntered()" />
+        <InputText @bind-Value="RecipeModel!.Name" @oninput="() => NameEntered()" />
         <p class="text-danger">@NameWarning</p>
     </div>
     <br />
@@ -47,7 +47,7 @@
     <br />
 
     <div>
-        <button type="submit">Submit</button>
+        <button type="submit">Potvrď</button>
         <br />
         <label style="color:green">@DoneNotification</label>
     </div>
