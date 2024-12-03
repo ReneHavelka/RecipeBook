@@ -1,0 +1,83 @@
+﻿@page "/DishTypes/dishTypeListing"
+@layout BlazorApp.Components.Layout.DishTypeLayout
+@rendermode InteractiveServer
+
+<EditForm Model="DishTypeListModel" OnValidSubmit="OnSubmitAsync">
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width:5rem">
+                        <img type="button" src="\assets\TrashCan.png" class="w-25" @onclick="() => ToDelete()" />
+                    </th>
+                    <th style="width:30rem; padding-left:3rem">
+                        Názov (editovateľný)
+                    </th>
+                    <th style="padding-left:3rem">
+                        Poradie
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var dishType in DishTypeListModel)
+                {
+                    var dishTypeId = dishType.Id;
+                    <tr>
+                        <td style="vertical-align: middle">
+                            @if (dishTypeId != 0)
+                            {
+                                <InputCheckbox @bind-Value="@DishTypesToDelete[dishTypeId]" />
+                            }
+                        </td>
+                        <td style="vertical-align: middle; padding-left:3rem">
+                            <InputText style="width:30rem; outline:none" class="border-0" @bind-Value="@dishType.Name" />
+                        </td>
+                        <td style="padding-left:3rem">
+                            @if (dishTypeId != 0)
+                            {
+                                <button type="button" style="font-size:0.7rem;" @onclick="() => DishTypePositionUp(dishTypeId)">&uarr;</button>
+                                <br />
+                                <button type="button" style="font-size:0.7rem;" @onclick="() => DishTypePositionDown(dishTypeId)">&darr;</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <br />
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="padding-left:1rem">
+                        Noý názov
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var newDishType in NewDishTypeListModel)
+                {
+                    <tr>
+                        <td style="vertical-align:middle; padding-left:1rem">
+                            <InputText style="width:30rem; outline:none; float:left" class="border-0" @bind-Value="@newDishType.Name" @onmouseout="() => NewDishTypeChange(newDishType)" />
+                        </td>
+                        <td style="vertical-align:middle" class="w-75">
+                            <img type="button" src="\assets\TrashCan.png" style="width:15px; float:left" @onclick="() => NewDishTypeToDelete(newDishType)" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <br />
+
+    <button type="submit">Potvrď zmeny</button>
+    <br />
+</EditForm>

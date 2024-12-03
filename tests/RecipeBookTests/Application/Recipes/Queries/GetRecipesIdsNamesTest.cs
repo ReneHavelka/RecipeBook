@@ -21,9 +21,9 @@ namespace RecipeBookTests.Application.Recipes.Queries
 			var allRecipesCount = dbContext.Recipes.Count();
 
 			//Act
-			var getRecipesIdsNames = new GetRecipesIdsNames(dbContext);
+			var getRecipes = new GetRecipes(dbContext);
 
-			var recipeList = await getRecipesIdsNames.GetRecipeListAsync();
+			var recipeList = await getRecipes.GetRecipeIdsDishTypesIdsNamesListAsync(-1);
 
 			//Pre otestovanie zoradenia podľa názvu jedla.
 			var recipeListOrderedAsc = recipeList.OrderBy(x => x.Name).ToList();

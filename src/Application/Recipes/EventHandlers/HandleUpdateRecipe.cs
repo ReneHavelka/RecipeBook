@@ -30,9 +30,9 @@ namespace Application.Recipes.EventHandlers
 				_recipe.RecipeInstr = recipeInstructions;
 			}
 
-			if (name != null && name.Trim() != string.Empty) { _recipe.Name = name; }
+			if (name != null && name.Trim() != String.Empty) { _recipe.Name = name; }
 
-			if (_recipe == null) { return string.Empty; }
+			if (_recipe == null) { return String.Empty; }
 
 			UpdateRecipe updateRecipe = new(_dbContext);
 			await updateRecipe.DoUpdateRecipeAsync(_recipe);

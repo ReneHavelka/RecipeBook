@@ -11,15 +11,18 @@ namespace Application.DishTypes.Commands
 			_dbContext = dbContext;
 		}
 
-		public async Task DoUpdateDishType(DishType dishType, CancellationToken cancellationToken)
+		public async Task AddDishTypes(IList<DishType> newDishTypes)
 		{
-			DishType entity = new DishType();
+			if (newDishTypes[newDishTypes.Count - 1].Name == String.Empty) { newDishTypes.RemoveAt(newDishTypes.Count - 1); }
+			
+			await _dbContext.DishTypes.AddRangeAsync(newDishTypes);
+			await _dbContext.SaveChangesAsync();
+		}
 
-			entity.Id = dishType.Id;
-			entity.Name = dishType.Name;
-
-			_dbContext.DishTypes.Update(entity);
-			await _dbContext.SaveChangesAsync(cancellationToken);
+		public async Task DoUpdateDishTypesAsync(IEnumerable<DishType> dishTypes, CancellationToken cancellationToken = default)
+		{
+			_dbContext.DishTypes.UpdateRange(dishTypes);
+			await _dbContext.SaveChangesAsync();
 		}
 	}
 }

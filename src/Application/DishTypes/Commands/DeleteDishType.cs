@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Recipes.Queries;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +14,23 @@ namespace Application.DishTypes.Commands
 			_dbContext = dbContext;
 		}
 
-		public async Task DoDeleteDishType(int id, CancellationToken cancellationToken)
+		public async Task DoDeleteDishType(IEnumerable<int> dishTypeIds, CancellationToken cancellationToken = default)
 		{
-			DishType entity = await _dbContext.DishTypes.FirstAsync(x => x.Id == id);
+			var entitiesToDelete = _dbContext.DishTypes.Where(x => dishTypeIds.Contains(x.Id));
 
-			_dbContext.DishTypes.Remove(entity);
+			var getRecipes = new GetRecipes(_dbContext);
+			var recipesSelected = await getRecipes.GetCompleteRecipes(dishTypeIds);
+
+			foreach (var recipe in recipesSelected)
+			{
+
+				recipe.DishTypeId = 0;
+			}
+
+			_dbContext.Recipes.UpdateRange(recipesSelected);
+			await _dbContext.SaveChangesAsync(cancellationToken);
+
+			_dbContext.DishTypes.RemoveRange(entitiesToDelete);
 			await _dbContext.SaveChangesAsync(cancellationToken);
 		}
 	}

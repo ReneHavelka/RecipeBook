@@ -33,12 +33,12 @@ namespace BlazorApp.Components.Pages.Recipes
 
 		protected async override Task OnParametersSetAsync()
 		{
-			var getRecepies = new GetRecipesIdsNames(_dbContext);
+			var getRecepies = new GetRecipes(_dbContext);
 
 			if (Id == null) return;
 
-			RecipeList = await getRecepies.GetRecipeListAsync((int)Id);
-			if (Id == 0) { DishTypeName = "Všetky recepty"; }
+			RecipeList = await getRecepies.GetRecipeIdsDishTypesIdsNamesListAsync((int)Id);
+			if (Id == -1) { DishTypeName = "Všetky recepty"; }
 
 			RecipesToDelete = RecipeList.Select(x => x.Id).ToDictionary(x => x, y => false);
 		}
@@ -51,10 +51,10 @@ namespace BlazorApp.Components.Pages.Recipes
 
 		private async Task ToDelete()
 		{
-			var ids = RecipesToDelete.Where(x => x.Value == true).Select(x => x.Key);
+			var recipeIds = RecipesToDelete.Where(x => x.Value == true).Select(x => x.Key);
 
 			var deleteRecipe = new DeleteRecipe(_dbContext);
-			await deleteRecipe.DoDeleteRecipe(ids);
+			await deleteRecipe.DoDeleteRecipe(recipeIds);
 
 			Navigation.NavigateTo($"/Recipes/recipeListing?Id={Id}&DishTypeName={DishTypeName}", forceLoad: true);
 		}

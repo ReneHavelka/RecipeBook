@@ -14,7 +14,14 @@ namespace Application.DishTypes.Queries
 			_dbContext = dbContext;
 		}
 
-		//Načítaj názvy druhy jedál, t.j. názvy a id.
-		public async Task<IList<DishType>> GetDishTypeListAsync() => await _dbContext.DishTypes.ToListAsync();
+		//Načítaj názvy druhov jedál, t.j. názvy a id.
+		public async Task<IList<DishType>> GetDishTypeListAsync()
+		{
+			var dishTypes = _dbContext.DishTypes;
+			var lastDishType = await dishTypes.MaxAsync(x => x.Order);
+			var dishTypesList = await dishTypes.OrderBy(x => x.Id == 0 ? lastDishType + 1 : x.Order).ToListAsync();
+
+			return dishTypesList;
+		}
 	}
 }

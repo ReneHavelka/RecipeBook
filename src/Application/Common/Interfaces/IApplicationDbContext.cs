@@ -8,6 +8,6 @@ namespace Application.Common.Interfaces
 		public DbSet<DishType> DishTypes { get; set; }
 		public DbSet<Recipe> Recipes { get; set; }
 
-		Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+		public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 	}
 }

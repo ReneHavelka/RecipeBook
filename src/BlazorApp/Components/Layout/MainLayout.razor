@@ -6,10 +6,15 @@
     </div>
 
     <main>
-        <div class="topnav align-items-center px-4 bg-light" style="height:4rem">
-            <NavLink class="nav-link text-dark col-sm-1" href=@("/Recipes/createOrUpdateRecipe")>
-                Nový recept
-            </NavLink>
+        <div class="topnav px-4 bg-light" style="height:4rem">
+            <span>
+                <NavLink class="nav-link text-dark col-sm-1 float-start" href=@("/Recipes/createOrUpdateRecipe")>
+                    Nový recept
+                </NavLink>
+                <NavLink class="nav-link text-dark col-sm-1 float-end" href=@($"/DishTypes/dishTypeListing")>
+                    Úprava druhu jedla
+                </NavLink>
+            </span>
         </div>
 
         <article class="content px-4">

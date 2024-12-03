@@ -12,7 +12,7 @@ namespace BlazorApp.Components.Pages.Recipes
 	public partial class CreateOrUpdateRecipe
 	{
 		IApplicationDbContext _dbContext;
-		private string modeName = string.Empty;
+		private string modeName = String.Empty;
 
 		[SupplyParameterFromForm]
 		private Recipe RecipeModel { get; set; }
@@ -24,7 +24,7 @@ namespace BlazorApp.Components.Pages.Recipes
 		private string DishTypeIdWarning { get; set; }
 		private string FileWarning { get; set; }
 		private string NameWarning { get; set; }
-		private string DoneNotification { get; set; } = string.Empty;
+		private string DoneNotification { get; set; } = String.Empty;
 
 		[Parameter]
 		[SupplyParameterFromQuery]
@@ -65,22 +65,22 @@ namespace BlazorApp.Components.Pages.Recipes
 
 		private void DishTypeSelected()
 		{
-			if (RecipeModel.DishTypeId > 0) { DishTypeIdWarning = string.Empty; }
-			DoneNotification = string.Empty;
+			if (RecipeModel.DishTypeId > 0) { DishTypeIdWarning = String.Empty; }
+			DoneNotification = String.Empty;
 		}
 
 		private void LoadFile(InputFileChangeEventArgs e)
 		{
 			file = e.File;
-			FileWarning = string.Empty;
+			FileWarning = String.Empty;
 			FileName = file.Name;
-			DoneNotification = string.Empty;
+			DoneNotification = String.Empty;
 		}
 
 		public void NameEntered()
 		{
-			NameWarning = string.Empty;
-			DoneNotification = string.Empty;
+			NameWarning = String.Empty;
+			DoneNotification = String.Empty;
 		}
 
 		private async Task OnSubmitAsync()
@@ -90,7 +90,7 @@ namespace BlazorApp.Components.Pages.Recipes
 			Stream stream = null;
 			if (file != null) { stream = file.OpenReadStream(); }
 
-			string createRecipeActionResult = string.Empty;
+			string createRecipeActionResult = String.Empty;
 
 			if (modeName == "Nový recept")
 			{
@@ -99,7 +99,7 @@ namespace BlazorApp.Components.Pages.Recipes
 			}
 			else
 			{
-				if (RecipeModel.Name is null || RecipeModel.Name.Trim() == string.Empty) { RecipeModel.Name = RecipeName; }
+				if (RecipeModel.Name is null || RecipeModel.Name.Trim() == String.Empty) { RecipeModel.Name = RecipeName; }
 				HandleUpdateRecipe handleUpdateRecipe = new(_dbContext);
 				createRecipeActionResult = await handleUpdateRecipe.DoUpdateRecipe(RecipeId, RecipeModel.DishTypeId, stream, RecipeModel.Name);
 			}
@@ -114,13 +114,13 @@ namespace BlazorApp.Components.Pages.Recipes
 		private void ResetPropertiesAndFields()
 		{
 			file = null;
-			FileName = string.Empty;
+			FileName = String.Empty;
 			if (RecipeId == 0) { RecipeModel.Id = 0; }
-			RecipeModel.Name = string.Empty;
-			DishTypeIdWarning = string.Empty;
-			FileWarning = string.Empty;
-			NameWarning = string.Empty;
-			DoneNotification = string.Empty;
+			RecipeModel.Name = String.Empty;
+			DishTypeIdWarning = String.Empty;
+			FileWarning = String.Empty;
+			NameWarning = String.Empty;
+			DoneNotification = String.Empty;
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace Application.Recipes.EventHandlers
 			string randomFileName = Path.GetRandomFileName();
 			string randomFileNameWithoutExt = Path.GetFileNameWithoutExtension(randomFileName);
 			string tempPath = Path.GetTempPath();
-			string completeTempFileName = string.Empty;
+			string completeTempFileName = String.Empty;
 
 			switch (recipeDirections)
 			{
@@ -40,7 +40,7 @@ namespace Application.Recipes.EventHandlers
 					break;
 			}
 
-			if (completeTempFileName != string.Empty)
+			if (completeTempFileName != String.Empty)
 			{
 				await File.WriteAllBytesAsync(completeTempFileName, recipeDirections);
 				Process.Start(new ProcessStartInfo
