@@ -13,7 +13,11 @@ namespace Application.DishTypes.Commands
 
 		public async Task AddDishTypes(IList<DishType> newDishTypes)
 		{
-			if (newDishTypes[newDishTypes.Count - 1].Name == String.Empty) { newDishTypes.RemoveAt(newDishTypes.Count - 1); }
+			newDishTypes = newDishTypes.Where(x => x.Name.Trim() != String.Empty).ToList();
+			
+			if (newDishTypes.Count == 0) { return; }
+			
+			//if (newDishTypes[newDishTypes.Count - 1].Name == String.Empty) { newDishTypes.RemoveAt(newDishTypes.Count - 1); }
 			
 			await _dbContext.DishTypes.AddRangeAsync(newDishTypes);
 			await _dbContext.SaveChangesAsync();

@@ -16,6 +16,7 @@ namespace BlazorApp.Components.Pages.DishTypes
 		IDictionary<int, bool> DishTypesToDelete { get; set; }
 		[SupplyParameterFromForm]
 		IList<DishType> NewDishTypeListModel { get; set; } = new List<DishType>();
+		private string DoneNotification { get; set; }
 
 		[Inject]
 		NavigationManager Navigation { get; set; }
@@ -41,26 +42,33 @@ namespace BlazorApp.Components.Pages.DishTypes
 
 			foreach (var newDishType in NewDishTypeListModel)
 			{
+				newDishType.Name = newDishType.Name.Trim();
 				newDishType.Order = ++lastPositionInOrder;
 				++lastPositionInOrder;
 			}
 
 			var updateDishType = new UpdateDishType(_dbContext);
 
+			DoneNotification = "Zmeny sa ukladajú.";
+
 			await updateDishType.AddDishTypes(NewDishTypeListModel);
 			await updateDishType.DoUpdateDishTypesAsync(DishTypeListModel);
+
+			Thread.Sleep(1000);
 
 			Navigation.Refresh(true);
 		}
 
 		private void NewDishTypeChange(DishType currentNewDishType)
 		{
+			currentNewDishType.Name = currentNewDishType.Name.Trim();
 			var lastNewDishType = NewDishTypeListModel.Last();
+
 			if (lastNewDishType.Name.Trim() != String.Empty)
 			{
 				NewDishTypeListModel.Add(new DishType { Name = String.Empty });
 			}
-			else if (lastNewDishType != currentNewDishType && currentNewDishType.Name.Trim() == String.Empty)
+			else if (lastNewDishType != currentNewDishType && currentNewDishType.Name == String.Empty)
 			{
 				NewDishTypeListModel.Remove(currentNewDishType);
 			}
@@ -112,7 +120,7 @@ namespace BlazorApp.Components.Pages.DishTypes
 			currentNewDishType.Name = String.Empty;
 			NewDishTypeChange(currentNewDishType);
 
-			Navigation.Refresh(true);
+			StateHasChanged();
 		}
 
 		private async Task ToDelete()

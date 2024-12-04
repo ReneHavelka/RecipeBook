@@ -65,7 +65,7 @@
                 {
                     <tr>
                         <td style="vertical-align:middle; padding-left:1rem">
-                            <InputText style="width:30rem; outline:none; float:left" class="border-0" @bind-Value="@newDishType.Name" @onmouseout="() => NewDishTypeChange(newDishType)" />
+                            <InputText style="width:30rem; outline:none; float:left" class="border-0" @bind-Value="@newDishType.Name" @onblur="() => NewDishTypeChange(newDishType)" />
                         </td>
                         <td style="vertical-align:middle" class="w-75">
                             <img type="button" src="\assets\TrashCan.png" style="width:15px; float:left" @onclick="() => NewDishTypeToDelete(newDishType)" />
@@ -79,5 +79,7 @@
     <br />
 
     <button type="submit">Potvrď zmeny</button>
-    <br />
+    <p style="color:green">@DoneNotification</p>
 </EditForm>
+<br />
+<br />
