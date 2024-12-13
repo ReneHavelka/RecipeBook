@@ -7,37 +7,40 @@
 
 <div>
     <h3>@DishTypeName</h3>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th style="width:5rem">
-                    <img type="button" src="\assets\TrashCan.png" class="w-25" @onclick="() => ToDelete()" />
-                </th>
-                <th style="padding-left:1rem">
-                    Názov
-                </th>
-                <th class="col-1"></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var recipe in RecipeList)
-            {
+    <div style="background-image: url('/assets/TableFullOfFood.jpg'); background-size: cover;
+                background-position: center; height: 100vh; width: 100%; background-repeat: no-repeat; background-attachment: fixed;">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        <input type="checkbox" @bind-value="@RecipesToDelete[recipe.Id]" />
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-light text-black" @onclick="() => RecipeDirectionsAync(recipe)">@recipe.Name</button>
-                    </td>
-                    <td>
-                        <NavLink class="nav-link text-dark col-sm-1" href=@($"/Recipes/createOrUpdateRecipe?DishTypeId={recipe.DishTypeId}&RecipeName={@recipe.Name}&RecipeId={@recipe.Id}")>
-                            Aktualizuj
-                        </NavLink>
-                    </td>
+                    <th style="width:5rem">
+                        <img type="button" src="\assets\TrashCan.png" class="w-25" @onclick="() => ToDelete()" />
+                    </th>
+                    <th style="padding-left:1rem">
+                        Názov
+                    </th>
+                    <th class="col-1"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @foreach (var recipe in RecipeList)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" @bind-value="@RecipesToDelete[recipe.Id]" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-light text-black" @onclick="() => RecipeDirectionsAync(recipe)">@recipe.Name</button>
+                        </td>
+                        <td>
+                            <NavLink class="nav-link text-dark col-sm-1" href=@($"/Recipes/createOrUpdateRecipe?DishTypeId={recipe.DishTypeId}&RecipeName={@recipe.Name}&RecipeId={@recipe.Id}")>
+                                Aktualizuj
+                            </NavLink>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+<br />
