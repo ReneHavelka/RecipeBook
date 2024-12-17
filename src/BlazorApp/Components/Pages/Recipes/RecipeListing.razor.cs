@@ -51,12 +51,10 @@ namespace BlazorApp.Components.Pages.Recipes
 
 		private async Task ToDelete()
 		{
-			var recipeIds = RecipesToDelete.Where(x => x.Value == true).Select(x => x.Key);
+			var handleDeleteRecipes = new HandleDeleteRecipes(_dbContext);
+			await handleDeleteRecipes.DoDeleteRecipes(RecipesToDelete);
 
-			var deleteRecipe = new DeleteRecipe(_dbContext);
-			await deleteRecipe.DoDeleteRecipe(recipeIds);
-
-			Navigation.NavigateTo($"/Recipes/recipeListing?Id={Id}&DishTypeName={DishTypeName}", forceLoad: true);
+			Navigation.Refresh(true);
 		}
 	}
 }

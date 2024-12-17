@@ -39,7 +39,7 @@
     
     <div>
         <label style="margin-right:1rem">Názov receptu:</label>
-        <InputText @bind-Value="RecipeModel!.Name" @oninput="() => NameEntered()" />
+        <InputText @bind-Value="RecipeModel!.Name" style="width: 20rem" @oninput="() => NameEntered()" />
         <p class="text-danger">@NameWarning</p>
     </div>
     <br />

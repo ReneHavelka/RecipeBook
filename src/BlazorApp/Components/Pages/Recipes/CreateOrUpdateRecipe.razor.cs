@@ -6,6 +6,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlazorApp.Components.Pages.Recipes
 {
@@ -87,28 +88,30 @@ namespace BlazorApp.Components.Pages.Recipes
 		{
 			if (DoneNotification.Length > 0) { return; }
 
+			if (RecipeModel.Name.Length > 40) { RecipeModel.Name = RecipeModel.Name.Remove(40); }
+
 			Stream stream = null;
 			if (file != null) { stream = file.OpenReadStream(); }
 
-			string createRecipeActionResult = String.Empty;
+			string recipeCreateOrUpdateActionResult = String.Empty;
 
 			if (modeName == "Nový recept")
 			{
 				HandleCreateRecipe handleCreateRecipe = new(_dbContext);
-				createRecipeActionResult = await handleCreateRecipe.DoCreateRecipe(RecipeModel.DishTypeId, stream, RecipeModel.Name);
+				recipeCreateOrUpdateActionResult = await handleCreateRecipe.DoCreateRecipe(RecipeModel.DishTypeId, stream, RecipeModel.Name);
 			}
 			else
 			{
 				if (RecipeModel.Name is null || RecipeModel.Name.Trim() == String.Empty) { RecipeModel.Name = RecipeName; }
 				HandleUpdateRecipe handleUpdateRecipe = new(_dbContext);
-				createRecipeActionResult = await handleUpdateRecipe.DoUpdateRecipe(RecipeId, RecipeModel.DishTypeId, stream, RecipeModel.Name);
+				recipeCreateOrUpdateActionResult = await handleUpdateRecipe.DoUpdateRecipe(RecipeId, RecipeModel.DishTypeId, stream, RecipeModel.Name);
 			}
 
-			if (createRecipeActionResult.Contains("dishtype")) { DishTypeIdWarning = "Druh jedla je povinný údaj!"; }
-			if (createRecipeActionResult.Contains("file")) { FileWarning = "Súbor s receptom nebol vybraný!"; }
-			if (createRecipeActionResult.Contains("name")) { NameWarning = "Názov receptu je povinný údaj!"; }
-			if (createRecipeActionResult.Contains("recipeCreated")) { DoneNotification = "Nový recept bol pridaný."; }
-			if (createRecipeActionResult.Contains("recipeUpdated")) { DoneNotification = "Recept bol uktualizovaný."; }
+			if (recipeCreateOrUpdateActionResult.Contains("dishtype")) { DishTypeIdWarning = "Druh jedla je povinný údaj!"; }
+			if (recipeCreateOrUpdateActionResult.Contains("file")) { FileWarning = "Súbor s receptom nebol vybraný!"; }
+			if (recipeCreateOrUpdateActionResult.Contains("name")) { NameWarning = "Názov receptu je povinný údaj!"; }
+			if (recipeCreateOrUpdateActionResult.Contains("recipeCreated")) { DoneNotification = "Nový recept bol pridaný."; }
+			if (recipeCreateOrUpdateActionResult.Contains("recipeUpdated")) { DoneNotification = "Recept bol uktualizovaný."; }
 		}
 
 		private void ResetPropertiesAndFields()
