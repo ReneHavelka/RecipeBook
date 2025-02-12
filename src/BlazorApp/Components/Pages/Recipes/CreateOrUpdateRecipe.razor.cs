@@ -91,7 +91,7 @@ namespace BlazorApp.Components.Pages.Recipes
 			if (RecipeModel.Name.Length > 40) { RecipeModel.Name = RecipeModel.Name.Remove(40); }
 
 			Stream stream = null;
-			if (file != null) { stream = file.OpenReadStream(); }
+			if (file != null) { stream = file.OpenReadStream(maxAllowedSize: 1048576); }
 
 			string recipeCreateOrUpdateActionResult = String.Empty;
 

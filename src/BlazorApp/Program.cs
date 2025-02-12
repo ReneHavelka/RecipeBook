@@ -4,6 +4,9 @@ using Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
 builder.Services.AddInfrastructureServices();
@@ -25,5 +28,6 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode();
+app.MapControllers();
 
 app.Run();

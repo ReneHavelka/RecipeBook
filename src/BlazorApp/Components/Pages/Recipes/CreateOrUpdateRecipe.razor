@@ -30,8 +30,8 @@
 
     <div>
         <label style="margin-right:1rem">Súbor s receptom:</label>
-        <InputFile id="inputFile" accept=".pdf, .docx, .doc, .txt" OnChange="LoadFile" style="display:none" />
-        <label for="inputFile" style="cursor:pointer; border:2px solid black; padding-left:1rem; padding-right:1rem">Vyber súbor (pdf, docx, doc, txt)</label>
+        <InputFile id="inputFile" accept=".pdf" OnChange="LoadFile" style="display:none" />
+        <label for="inputFile" style="cursor:pointer; border:2px solid black; padding-left:1rem; padding-right:1rem">Vyber súbor vo formáte pdf.</label>
         <span style="margin-left:1rem">@FileName</span>
         <p class="text-danger">@FileWarning</p>
     </div>

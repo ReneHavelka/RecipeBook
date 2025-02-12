@@ -43,12 +43,6 @@ namespace BlazorApp.Components.Pages.Recipes
 			RecipesToDelete = RecipeList.Select(x => x.Id).ToDictionary(x => x, y => false);
 		}
 
-		private async Task RecipeDirectionsAync(Recipe recipe)
-		{
-			var handleSpecificRecipeDirections = new HandleSpecificRecipeDirections(_dbContext);
-			await handleSpecificRecipeDirections.RecipeDirections(recipe);
-		}
-
 		private async Task ToDelete()
 		{
 			var handleDeleteRecipes = new HandleDeleteRecipes(_dbContext);

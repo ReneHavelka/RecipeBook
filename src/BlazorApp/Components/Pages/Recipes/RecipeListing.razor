@@ -30,7 +30,13 @@
                             <input type="checkbox" @bind-value="@RecipesToDelete[recipe.Id]" />
                         </td>
                         <td>
-                            <button type="button" class="btn btn-outline-light text-black" @onclick="() => RecipeDirectionsAync(recipe)">@recipe.Name</button>
+                            @* <button type="button" class="btn btn-outline-light text-black" @onclick="() => RecipeDirectionsAync(recipe)">@recipe.Name</button> *@
+
+                            <NavLink class="nav-link text-black" href=@($"/Recipes/pdfviewer?RecipeId={@recipe.Id}")>
+                                @recipe.Name
+                            </NavLink>
+
+
                         </td>
                         <td>
                             <NavLink class="nav-link text-dark col-sm-1" href=@($"/Recipes/createOrUpdateRecipe?DishTypeId={recipe.DishTypeId}&RecipeName={@recipe.Name}&RecipeId={@recipe.Id}")>
