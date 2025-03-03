@@ -9,9 +9,16 @@ namespace BlazorApp.Components.Pages.DishTypes
 {
 	public partial class DishTypeListing
 	{
+		int dishTypeIdOnDragStart;
+
 		IApplicationDbContext _dbContext;
 		[SupplyParameterFromForm]
 		IList<DishType> DishTypeListModel { get; set; } = new List<DishType>();
+		[SupplyParameterFromForm]
+		int? FirstPositionInOrder { get; set; }
+		[SupplyParameterFromForm]
+		int? LastPositionInOrder { get; set; }
+
 		[SupplyParameterFromForm]
 		IDictionary<int, bool> DishTypesToDelete { get; set; }
 		[SupplyParameterFromForm]
@@ -31,20 +38,23 @@ namespace BlazorApp.Components.Pages.DishTypes
 			GetDishTypes getDishTypes = new(_dbContext);
 			DishTypeListModel = await getDishTypes.GetDishTypeListAsync();
 
-			NewDishTypeListModel.Add(new DishType() {Name = String.Empty });
+			FirstPositionInOrder = DishTypeListModel.Min(x => x.Order);
+			LastPositionInOrder = DishTypeListModel.Max(x => x.Order);
 
-			DishTypesToDelete = DishTypeListModel.ToDictionary(x => x.Id, y => false);	
+			NewDishTypeListModel.Add(new DishType() { Name = String.Empty });
+
+			DishTypesToDelete = DishTypeListModel.ToDictionary(x => x.Id, y => false);
 		}
 
 		private async Task OnSubmitAsync()
 		{
-			var lastPositionInOrder = DishTypeListModel.Max(x => x.Order);
+			LastPositionInOrder = DishTypeListModel.Max(x => x.Order);
 
 			foreach (var newDishType in NewDishTypeListModel)
 			{
 				newDishType.Name = newDishType.Name.Trim();
-				newDishType.Order = ++lastPositionInOrder;
-				++lastPositionInOrder;
+				newDishType.Order = ++LastPositionInOrder;
+				++LastPositionInOrder;
 			}
 
 			var updateDishType = new UpdateDishType(_dbContext);
@@ -78,11 +88,11 @@ namespace BlazorApp.Components.Pages.DishTypes
 
 		private void DishTypePositionUp(int dishTypeId)
 		{
-			var firstPositionInOrder = DishTypeListModel.Min(x => x.Order);
+			FirstPositionInOrder = DishTypeListModel.Min(x => x.Order);
 
 			var dishType = DishTypeListModel.FirstOrDefault(x => x.Id == dishTypeId);
 
-			if (dishType.Order == firstPositionInOrder) { return; }
+			if (dishType.Order == FirstPositionInOrder) { return; }
 
 			var maxOfPrecedingDishTypePositions = DishTypeListModel.Where(x => x.Order < dishType.Order).Select(x => x.Order).Max();
 			var precedingDishType = DishTypeListModel.FirstOrDefault(x => x.Order == maxOfPrecedingDishTypePositions);
@@ -131,6 +141,32 @@ namespace BlazorApp.Components.Pages.DishTypes
 			await deleteRecipe.DoDeleteDishType(dishTypeIds);
 
 			Navigation.Refresh(true);
+		}
+
+		private void HandleOnDragStart(int dishTypeIdOnDragStart)
+		{
+			this.dishTypeIdOnDragStart = dishTypeIdOnDragStart;
+		}
+
+		private void HandleOnDragOver(int dishTypeIdOnDragOver)
+		{
+			if (dishTypeIdOnDragStart == dishTypeIdOnDragOver) { return;}
+
+			var lastPositionInOrder = DishTypeListModel.Max(x => x.Order);
+
+			var dishTypeOnDragStart = DishTypeListModel.FirstOrDefault(x => x.Id == dishTypeIdOnDragStart);
+			var onDragStartOrder = dishTypeOnDragStart.Order;
+			var dishTypeOnDragOver = DishTypeListModel.FirstOrDefault(x => x.Id == dishTypeIdOnDragOver);
+
+			dishTypeOnDragStart.Order = dishTypeOnDragOver.Order;
+			dishTypeOnDragOver.Order = onDragStartOrder;
+
+			DishTypeListModel = DishTypeListModel.OrderBy(x => x.Id == 0 ? lastPositionInOrder + 1 : x.Order).ToList();
+
+			StateHasChanged();
+
+
+
 		}
 	}
 }

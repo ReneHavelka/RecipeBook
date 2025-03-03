@@ -14,7 +14,7 @@
                         Názov (editovateľný)
                     </th>
                     <th style="padding-left:3rem">
-                        Poradie
+                        Poradie (alebo drag&drop názov)
                     </th>
                 </tr>
             </thead>
@@ -31,14 +31,36 @@
                             }
                         </td>
                         <td style="vertical-align: middle; padding-left:3rem">
-                            <InputText style="width:30rem; outline:none" class="border-0" @bind-Value="@dishType.Name" />
+                            @if (dishTypeId != 0)
+                            {
+                                <InputText style="width:30rem; outline:none" class="border-0" @bind-Value="@dishType.Name"
+                                    draggable="true" @ondragstart="() => HandleOnDragStart(dishTypeId)" @ondragover="() => HandleOnDragOver(dishTypeId)" />
+                            }
+                            else
+                            {
+                                <InputText style="width:30rem; outline:none" class="border-0" @bind-Value="@dishType.Name" draggable="false" />
+                            }
                         </td>
                         <td style="padding-left:3rem">
                             @if (dishTypeId != 0)
                             {
-                                <button type="button" style="font-size:0.7rem;" @onclick="() => DishTypePositionUp(dishTypeId)">&uarr;</button>
+                                @if (dishType.Order != FirstPositionInOrder)
+                                {
+                                    <button type="button" style="font-size:0.7rem;" @onclick="() => DishTypePositionUp(dishTypeId)">&uarr;</button>
+                                }
+                                else
+                                {
+                                    <p type="button" style="font-size:0.7rem;"></p>
+                                }
                                 <br />
-                                <button type="button" style="font-size:0.7rem;" @onclick="() => DishTypePositionDown(dishTypeId)">&darr;</button>
+                                @if (dishType.Order != LastPositionInOrder)
+                                {
+                                    <button type="button" style="font-size:0.7rem;" @onclick="() => DishTypePositionDown(dishTypeId)">&darr;</button>
+                                }
+                                else
+                                {
+                                    <p type="button" style="font-size:0.7rem;"></p>
+                                }
                             }
                         </td>
                     </tr>
@@ -46,7 +68,6 @@
             </tbody>
         </table>
     </div>
-    <br />
     <br />
 
     <div>
@@ -56,7 +77,7 @@
                     <th style="padding-left:1rem">
                         Noý názov
                     </th>
-                    <th></th>
+                    <th />
                 </tr>
             </thead>
 
@@ -75,7 +96,6 @@
             </tbody>
         </table>
     </div>
-    <br />
     <br />
 
     <button type="submit">Potvrď zmeny</button>
