@@ -27,7 +27,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="checkbox" style="margin:0.7rem" @bind-value="@RecipesToDelete[recipe.Id]" />
+                            <input type="checkbox" style="margin-top:0.7rem" @bind-value="@RecipesToDelete[recipe.Id]" />
                         </td>
                         <td>
                             <NavLink class="nav-link text-black" href=@($"/Recipes/pdfviewer?RecipeId={@recipe.Id}")>
